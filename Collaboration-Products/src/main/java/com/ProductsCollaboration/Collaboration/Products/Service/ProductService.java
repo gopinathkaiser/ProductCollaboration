@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 public interface ProductService {
 
     ResponseEntity<?> insertProducts(ProductsDTO productsDTO);
+
+    ResponseEntity<?> getProducts(Long sid);
 }

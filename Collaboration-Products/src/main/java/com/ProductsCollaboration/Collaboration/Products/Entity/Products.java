@@ -20,7 +20,7 @@ public class Products {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long pId;
 
-    private Long UserId;
+    private Long userId;
 
     private String prodName;
 

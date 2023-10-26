@@ -7,4 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
     ResponseEntity<?> insert(UserDetailsDTO userDetailsDTO);
+
+    ResponseEntity<?> getProducts(Long uid);
+
+
 }
