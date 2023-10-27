@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface MessageServiceRepo extends JpaRepository<MessageDetails, UUID> {
 
     List<MessageDetails> findAllByAdminStatus(Status status);
+
+    List<MessageDetails> findAllBySenderIdAndReceiverIdAndAdminStatusOrderByMessageTimeDesc(Long sId,Long rId,Status status);
 }

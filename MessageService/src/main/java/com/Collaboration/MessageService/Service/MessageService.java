@@ -15,4 +15,6 @@ public interface MessageService {
     ResponseEntity<ApiResponseDTO> getMessages(Status status);
 
     ResponseEntity<?> updateStatus(Status status, UUID msgId);
+
+    ResponseEntity<?> getMessageBySenderReceiverId(Long sId, Long rId);
 }

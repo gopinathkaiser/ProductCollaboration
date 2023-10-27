@@ -29,8 +29,12 @@ public class MessageController {
 
     @PostMapping("updateStatus/{msgId}")
     public ResponseEntity<?> updateStatus(@RequestBody StatusDTO status, @PathVariable UUID msgId){
-        
+
         return messageService.updateStatus(status.getStatus(),msgId);
     }
 
+    @GetMapping("getMessage/{sId}/{rId}")
+    public ResponseEntity<?> getMessage(@PathVariable Long sId,@PathVariable Long rId){
+        return messageService.getMessageBySenderReceiverId(sId,rId);
+    }
 }

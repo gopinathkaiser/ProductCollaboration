@@ -28,7 +28,7 @@ public class MessageDetails {
 
     private Long senderId;
 
-    private Long ReceiverId;
+    private Long receiverId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
