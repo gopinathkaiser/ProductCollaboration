@@ -30,9 +30,9 @@ public class ProductServiceImpl implements ProductService {
                     .prodDesc(productsDTO.getProdDesc())
                     .build();
             productRepo.save(products);
-            return new ResponseEntity<>("Product added",HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK,"Data Added Successfully",products),HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>("Error Occured",HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR,"Error Occured" ,e), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -57,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
                     .UserId(sid)
                     .products(productDetailsList)
                     .build();
+
             System.out.println(productsResponse);
             ApiResponseDTO apiResponseDTO = ApiResponseDTO.builder()
                     .httpStatus(HttpStatus.OK)

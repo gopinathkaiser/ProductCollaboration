@@ -2,18 +2,13 @@ package com.ProductsCollaboration.Collaboration.Users.Service.Impl;
 
 import com.ProductsCollaboration.Collaboration.Users.DAO.UserRepo;
 import com.ProductsCollaboration.Collaboration.Users.DTO.ApiResponseDTO;
-import com.ProductsCollaboration.Collaboration.Users.DTO.ProductsResponseDTO;
 import com.ProductsCollaboration.Collaboration.Users.DTO.UserDetailsDTO;
 import com.ProductsCollaboration.Collaboration.Users.Entity.UserDetails;
 import com.ProductsCollaboration.Collaboration.Users.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,9 +31,9 @@ public class UserServiceImpl implements UserService {
                             .Address(userDetailsDTO.getAddress())
                             .build();
             userRepo.save(userDetails);
-            return new ResponseEntity<>("Data added",HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK,"Data Added Successfully",userDetails),HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>("Error Occured" + e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR,"Error Occurred" ,e), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -7,17 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
+@NoArgsConstructor
+public class StatusDTO {
 
-    private Long prodId;
-
-    private String prodName;
-
-    private Long prodPrice;
-
-    private String prodDesc;
+    private String status;
 }
-
-
