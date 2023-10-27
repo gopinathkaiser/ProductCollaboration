@@ -2,7 +2,9 @@ package com.ProductsCollaboration.Collaboration.Products.Service.Impl;
 
 import com.ProductsCollaboration.Collaboration.Products.DAO.ProductRepo;
 import com.ProductsCollaboration.Collaboration.Products.DTO.ApiResponseDTO;
+import com.ProductsCollaboration.Collaboration.Products.DTO.ProductDetailsDTO;
 import com.ProductsCollaboration.Collaboration.Products.DTO.ProductsDTO;
+import com.ProductsCollaboration.Collaboration.Products.DTO.ProductsResponseDTO;
 import com.ProductsCollaboration.Collaboration.Products.Entity.Products;
 import com.ProductsCollaboration.Collaboration.Products.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

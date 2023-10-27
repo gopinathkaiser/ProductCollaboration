@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
             ResponseEntity<ApiResponseDTO> responseEntity = restTemplate.getForEntity(productsUrl,ApiResponseDTO.class);
             return new ResponseEntity<>(responseEntity.getBody(),HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>("Error Occured" + e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error Occurred" + e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
