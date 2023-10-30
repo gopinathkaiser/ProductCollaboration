@@ -4,6 +4,7 @@ import com.ProductsCollaboration.Collaboration.Products.DAO.CollabProductRepo;
 import com.ProductsCollaboration.Collaboration.Products.DAO.ProductRepo;
 import com.ProductsCollaboration.Collaboration.Products.DTO.ApiResponseDTO;
 import com.ProductsCollaboration.Collaboration.Products.DTO.CollabProductReqDTO;
+import com.ProductsCollaboration.Collaboration.Products.DTO.OrderProductDTO;
 import com.ProductsCollaboration.Collaboration.Products.Entity.CollabProducts;
 import com.ProductsCollaboration.Collaboration.Products.Entity.Products;
 import com.ProductsCollaboration.Collaboration.Products.Service.CollabProductService;
@@ -70,6 +71,38 @@ public class CollabProductImpl implements CollabProductService {
                     .build();
 
             return new ResponseEntity<>(apiResponse, apiResponse.getHttpStatus());
+        }catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "failed", null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> orderCollabProducts(OrderProductDTO orderProduct) {
+        try{
+            Optional<CollabProducts> collabProduct = collabProductRepo.findById(orderProduct.getpId());
+            if(collabProduct.isEmpty())
+                return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.NOT_FOUND,"product not found",orderProduct.getpId()), HttpStatus.NOT_FOUND);
+
+            CollabProducts collabProductsClass = collabProduct.get();
+
+            if(collabProductsClass.getQuantity() == 0 )
+                return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK, "Sold out", null), HttpStatus.OK);
+
+            if(collabProductsClass.getQuantity() < orderProduct.getQuantity())
+                return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK, "Only " + collabProductsClass.getQuantity() + " available", null), HttpStatus.OK);
+
+            int finalQuantity = collabProductsClass.getQuantity() - orderProduct.getQuantity();
+            collabProductsClass.setQuantity(finalQuantity);
+
+            List<Products> productsInCollab = collabProductsClass.getProductsList();
+            for(Products products : productsInCollab){
+                products.setQuantity(products.getQuantity() - orderProduct.getQuantity());
+                productRepo.save(products);
+            }
+            collabProductRepo.save(collabProductsClass);
+
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK,"success",collabProductsClass), HttpStatus.OK);
+
         }catch (Exception e) {
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "failed", null), HttpStatus.INTERNAL_SERVER_ERROR);
         }

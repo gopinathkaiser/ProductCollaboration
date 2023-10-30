@@ -88,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
             }
             Products products = productsFromDb.get();
             if(orderProduct.getQuantity() > products.getQuantity()){
-                return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.NOT_FOUND, "Only " + productsFromDb.get().getQuantity() + " available", null), HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK, "Only " + productsFromDb.get().getQuantity() + " available", null), HttpStatus.OK);
             }
             Integer remainingQuantity = productsFromDb.get().getQuantity() - orderProduct.getQuantity();
             List<CollabProducts> collabProducts = collabProductRepo.findCollabProducts(orderProduct.getpId());

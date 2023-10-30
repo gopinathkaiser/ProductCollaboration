@@ -1,6 +1,7 @@
 package com.ProductsCollaboration.Collaboration.Products.Controller;
 
 import com.ProductsCollaboration.Collaboration.Products.DTO.CollabProductReqDTO;
+import com.ProductsCollaboration.Collaboration.Products.DTO.OrderProductDTO;
 import com.ProductsCollaboration.Collaboration.Products.Service.CollabProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +25,11 @@ public class CollabProductController {
     public ResponseEntity<?> getCollabProducts(){
         return collabProductService.getCollabProduct();
     }
+
+    @PostMapping("orderCollabProduct")
+    public ResponseEntity<?> orderCollabProduct(@RequestBody OrderProductDTO orderProduct){
+        return collabProductService.orderCollabProducts(orderProduct);
+    }
+
 
 }

@@ -3,6 +3,7 @@ package com.ProductsCollaboration.Collaboration.Users.Service.Impl;
 import com.ProductsCollaboration.Collaboration.Users.DAO.UserRepo;
 import com.ProductsCollaboration.Collaboration.Users.DTO.ApiResponseDTO;
 import com.ProductsCollaboration.Collaboration.Users.DTO.CollabProductReqDTO;
+import com.ProductsCollaboration.Collaboration.Users.DTO.OrderProductDTO;
 import com.ProductsCollaboration.Collaboration.Users.DTO.UserDetailsDTO;
 import com.ProductsCollaboration.Collaboration.Users.Entity.UserDetails;
 import com.ProductsCollaboration.Collaboration.Users.Service.UserService;
@@ -63,6 +64,30 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(responseEntity,HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>("Error Occurred" + e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> orderProducts(OrderProductDTO orderProduct) {
+        try {
+            String orderProductUrl = "http://localhost:9001/orderProduct";
+            ApiResponseDTO responseEntity = restTemplate.postForObject(orderProductUrl,orderProduct,ApiResponseDTO.class);
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK,"success",responseEntity), HttpStatus.OK);
+
+        }catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "failed" + e, null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> orderCollabProducts(OrderProductDTO orderProduct) {
+        try{
+            String orderProductUrl = "http://localhost:9001/collab/orderCollabProduct";
+            ApiResponseDTO responseEntity = restTemplate.postForObject(orderProductUrl,orderProduct,ApiResponseDTO.class);
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK,"success",responseEntity), HttpStatus.OK);
+
+        }catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "failed" + e, null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
