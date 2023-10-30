@@ -58,7 +58,6 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public ResponseEntity<?> updateStatus(Status status, UUID msgId) {
         try{
-            System.out.println(status + " " + msgId);
             Optional<MessageDetails> messageDetails = messageServiceRepo.findById(msgId);
             if(messageDetails.isEmpty())
                 return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK, "No data found for msg id",messageDetails),HttpStatus.OK);
@@ -76,9 +75,7 @@ public class MessageServiceImpl implements MessageService {
     public ResponseEntity<?> getMessageBySenderReceiverId(Long sId, Long rId) {
         try{
             List<MessageDetails> messageDetails = messageServiceRepo.findAllBySenderIdAndReceiverIdAndAdminStatusOrderByMessageTimeDesc(sId,rId,Status.APPROVED);
-            System.out.println(messageDetails);
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK,messageDetails.isEmpty() ? "No data found" : "Success",messageDetails),HttpStatus.OK);
-
         }catch (Exception e){
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR,"Error Occurred" ,e), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -2,6 +2,7 @@ package com.ProductsCollaboration.Collaboration.Users.Service.Impl;
 
 import com.ProductsCollaboration.Collaboration.Users.DAO.UserRepo;
 import com.ProductsCollaboration.Collaboration.Users.DTO.ApiResponseDTO;
+import com.ProductsCollaboration.Collaboration.Users.DTO.CollabProductReqDTO;
 import com.ProductsCollaboration.Collaboration.Users.DTO.UserDetailsDTO;
 import com.ProductsCollaboration.Collaboration.Users.Entity.UserDetails;
 import com.ProductsCollaboration.Collaboration.Users.Service.UserService;
@@ -46,6 +47,21 @@ public class UserServiceImpl implements UserService {
             ResponseEntity<ApiResponseDTO> responseEntity = restTemplate.getForEntity(productsUrl,ApiResponseDTO.class);
             return new ResponseEntity<>(responseEntity.getBody(),HttpStatus.OK);
         }catch (Exception e){
+            return new ResponseEntity<>("Error Occurred" + e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> addCollabProducts(CollabProductReqDTO productReq) {
+        try{
+            System.out.println("service 1.1");
+            String productsUrl = "http://localhost:9001/collab/addCollabProducts" ;
+            System.out.println(productReq);
+
+            ApiResponseDTO responseEntity = restTemplate.postForObject(productsUrl,productReq,ApiResponseDTO.class);
+            System.out.println("service 1.2");
+            return new ResponseEntity<>(responseEntity,HttpStatus.OK);
+        } catch (Exception e){
             return new ResponseEntity<>("Error Occurred" + e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

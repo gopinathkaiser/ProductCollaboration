@@ -29,7 +29,6 @@ public class MessageController {
 
     @PostMapping("updateStatus/{msgId}")
     public ResponseEntity<?> updateStatus(@RequestBody StatusDTO status, @PathVariable UUID msgId){
-
         return messageService.updateStatus(status.getStatus(),msgId);
     }
 

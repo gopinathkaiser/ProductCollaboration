@@ -25,4 +25,9 @@ public class AdminController {
         return adminService.updateStatus(statusDTO,msgId);
     }
 
+    @GetMapping("getCollaborations")
+    public ResponseEntity<?> getCollaborations(){
+        return adminService.getCollaborations();
+    }
+
 }

@@ -5,19 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductsDTO {
+public class OrderProductDTO {
 
-    private Long UserId;
+    private Long pId;
 
-    private String prodName;
+    public Long getpId() {
+        return pId;
+    }
 
-    private Long prodPrice;
-
-    private String prodDesc;
+    public void setpId(Long pId) {
+        this.pId = pId;
+    }
 
     private Integer quantity;
 }

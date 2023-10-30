@@ -20,7 +20,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ResponseEntity<?> getMessages(String status) {
         try {
-            String requestUrl = "http://localhost:9002/message/getMessage/ " + status;
+            String requestUrl = "http://localhost:9002/message/getMessage/" + status;
             return new ResponseEntity<>(restTemplate.getForObject(requestUrl, ApiResponseDTO.class), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred", e), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -36,5 +36,17 @@ public class AdminServiceImpl implements AdminService {
         } catch (Exception e) {
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred", e), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public ResponseEntity<?> getCollaborations() {
+//        try {
+//            String requestUrl = "http://localhost:9002/message/updateStatus/" + msgId;
+//            return new ResponseEntity<>(restTemplate.postForObject(requestUrl, status,ApiResponseDTO.class), HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred", e), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+                    return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred", "done"), HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 }

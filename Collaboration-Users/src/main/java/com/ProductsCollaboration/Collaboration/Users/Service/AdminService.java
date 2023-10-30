@@ -11,4 +11,6 @@ public interface AdminService {
     ResponseEntity<?> getMessages(String status);
 
     ResponseEntity<?> updateStatus(StatusDTO status, UUID msgId);
+
+    ResponseEntity<?> getCollaborations();
 }
