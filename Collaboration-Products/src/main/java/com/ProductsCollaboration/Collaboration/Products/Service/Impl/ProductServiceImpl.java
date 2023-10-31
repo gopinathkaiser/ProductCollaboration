@@ -6,6 +6,7 @@ import com.ProductsCollaboration.Collaboration.Products.DTO.*;
 import com.ProductsCollaboration.Collaboration.Products.Entity.CollabProducts;
 import com.ProductsCollaboration.Collaboration.Products.Entity.Products;
 import com.ProductsCollaboration.Collaboration.Products.Service.ProductService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private CollabProductRepo collabProductRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public ResponseEntity<?> insertProducts(ProductsDTO productsDTO) {
@@ -104,6 +108,23 @@ public class ProductServiceImpl implements ProductService {
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK, "success", products), HttpStatus.OK);
 
         } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "failed " + e, null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> updateProduct(Long pid, UpdateProductDTO updateProduct) {
+        try{
+            Optional<Products> products = productRepo.findById(pid);
+            if(products.isEmpty()){
+                return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.NOT_FOUND, "failed" , "No products found"), HttpStatus.NOT_FOUND);
+            }
+            Products productsClass = modelMapper.map(updateProduct,Products.class);
+            productsClass.setPId(pid);
+            productRepo.save(productsClass);
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK, "Updated Successfully", productsClass), HttpStatus.OK);
+
+        }catch (Exception e) {
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "failed " + e, null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
