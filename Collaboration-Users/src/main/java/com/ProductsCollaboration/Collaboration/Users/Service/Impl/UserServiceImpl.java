@@ -1,16 +1,18 @@
 package com.ProductsCollaboration.Collaboration.Users.Service.Impl;
 
+import com.ProductsCollaboration.Collaboration.Users.DAO.SellerBalanceRepo;
 import com.ProductsCollaboration.Collaboration.Users.DAO.UserRepo;
-import com.ProductsCollaboration.Collaboration.Users.DTO.ApiResponseDTO;
-import com.ProductsCollaboration.Collaboration.Users.DTO.CollabProductReqDTO;
-import com.ProductsCollaboration.Collaboration.Users.DTO.OrderProductDTO;
-import com.ProductsCollaboration.Collaboration.Users.DTO.UserDetailsDTO;
+import com.ProductsCollaboration.Collaboration.Users.DTO.*;
+import com.ProductsCollaboration.Collaboration.Users.Entity.SellerBalance;
 import com.ProductsCollaboration.Collaboration.Users.Entity.UserDetails;
 import com.ProductsCollaboration.Collaboration.Users.Service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,6 +22,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private SellerBalanceRepo sellerBalanceRepo;
 
     @Override
     public ResponseEntity<?> insert(UserDetailsDTO userDetailsDTO) {
@@ -90,4 +98,5 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "failed" + e, null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

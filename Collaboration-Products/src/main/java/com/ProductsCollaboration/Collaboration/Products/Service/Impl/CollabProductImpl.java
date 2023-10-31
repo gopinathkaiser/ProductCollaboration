@@ -5,6 +5,7 @@ import com.ProductsCollaboration.Collaboration.Products.DAO.ProductRepo;
 import com.ProductsCollaboration.Collaboration.Products.DTO.ApiResponseDTO;
 import com.ProductsCollaboration.Collaboration.Products.DTO.CollabProductReqDTO;
 import com.ProductsCollaboration.Collaboration.Products.DTO.OrderProductDTO;
+import com.ProductsCollaboration.Collaboration.Products.DTO.SellerBalanceDTO;
 import com.ProductsCollaboration.Collaboration.Products.Entity.CollabProducts;
 import com.ProductsCollaboration.Collaboration.Products.Entity.Products;
 import com.ProductsCollaboration.Collaboration.Products.Service.CollabProductService;
@@ -13,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,9 @@ public class CollabProductImpl implements CollabProductService {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public ResponseEntity<?> addCollabProducts(CollabProductReqDTO collabProductReq) {
@@ -95,16 +101,39 @@ public class CollabProductImpl implements CollabProductService {
             collabProductsClass.setQuantity(finalQuantity);
 
             List<Products> productsInCollab = collabProductsClass.getProductsList();
+            List<SellerBalanceDTO> sellerBalanceDTOList = new ArrayList<>();
+            int minQuantity = Integer.MAX_VALUE;
             for(Products products : productsInCollab){
+                int finalQuantityProduct = products.getQuantity() - orderProduct.getQuantity();
+                if(finalQuantityProduct < 0 ){
+                    collabProductsClass.setQuantity(0);
+                    collabProductRepo.save(collabProductsClass);
+                    return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK, "sold out", null), HttpStatus.OK);
+                }
+
+                minQuantity = Math.min(minQuantity,finalQuantityProduct);
                 products.setQuantity(products.getQuantity() - orderProduct.getQuantity());
                 productRepo.save(products);
-            }
-            collabProductRepo.save(collabProductsClass);
 
+                SellerBalanceDTO sellerBalance = SellerBalanceDTO.builder()
+                        .sellerId(products.getUserId())
+                        .remainingPrice(products.getProdPrice())
+                        .build();
+                sellerBalanceDTOList.add(sellerBalance);
+            }
+            collabProductsClass.setQuantity(minQuantity);
+            System.out.println(sellerBalanceDTOList);
+            String sellerBalanceUrl = "http://localhost:9000/Admin/addSellerBalance";
+            ApiResponseDTO apiResponseData = restTemplate.postForObject(sellerBalanceUrl,sellerBalanceDTOList, ApiResponseDTO.class);
+
+//            if(apiResponseData.getHttpStatus()!=null && apiResponseData.getHttpStatus().is2xxSuccessful()){
+//                return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK,"success",collabProductsClass), HttpStatus.OK);
+//            }
+            collabProductRepo.save(collabProductsClass);
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK,"success",collabProductsClass), HttpStatus.OK);
 
         }catch (Exception e) {
-            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "failed", null), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, "failed" + e, null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

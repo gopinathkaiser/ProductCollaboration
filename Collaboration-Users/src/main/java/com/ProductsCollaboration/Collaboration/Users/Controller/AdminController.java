@@ -1,11 +1,13 @@
 package com.ProductsCollaboration.Collaboration.Users.Controller;
 
+import com.ProductsCollaboration.Collaboration.Users.DTO.SellerBalanceDTO;
 import com.ProductsCollaboration.Collaboration.Users.DTO.StatusDTO;
 import com.ProductsCollaboration.Collaboration.Users.Service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -30,4 +32,8 @@ public class AdminController {
         return adminService.getCollaborations();
     }
 
+    @PostMapping("addSellerBalance")
+    public ResponseEntity<?> addBalance(@RequestBody List<SellerBalanceDTO> sellerBalance){
+        return adminService.addSellerBalance(sellerBalance);
+    }
 }

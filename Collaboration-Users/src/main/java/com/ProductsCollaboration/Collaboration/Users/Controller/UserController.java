@@ -2,6 +2,7 @@ package com.ProductsCollaboration.Collaboration.Users.Controller;
 
 import com.ProductsCollaboration.Collaboration.Users.DTO.CollabProductReqDTO;
 import com.ProductsCollaboration.Collaboration.Users.DTO.OrderProductDTO;
+import com.ProductsCollaboration.Collaboration.Users.DTO.SellerBalanceDTO;
 import com.ProductsCollaboration.Collaboration.Users.DTO.UserDetailsDTO;
 import com.ProductsCollaboration.Collaboration.Users.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,6 @@ public class UserController {
     public ResponseEntity<?> orderCollabPRoducts(@RequestBody OrderProductDTO orderProduct){
         return userService.orderCollabProducts(orderProduct);
     }
+
 
 }

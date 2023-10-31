@@ -29,6 +29,7 @@ public class ProductController {
         return productService.orderProducts(orderProduct);
     }
 
-
+    @PostMapping("updateProduct/{pid}")
+    public ResponseEntity<?> updateProduct(@RequestBody )
 
 }

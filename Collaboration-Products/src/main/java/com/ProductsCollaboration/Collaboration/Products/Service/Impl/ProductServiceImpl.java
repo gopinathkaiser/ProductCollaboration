@@ -80,9 +80,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseEntity<?> orderProducts(OrderProductDTO orderProduct) {
         try {
-            System.out.println("service 1.1");
             Optional<Products> productsFromDb = productRepo.findById(orderProduct.getpId());
-            System.out.println("data from db" + productsFromDb);
             if(productsFromDb.isEmpty()){
                 return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.NOT_FOUND, "Product not found", null), HttpStatus.NOT_FOUND);
             }
@@ -103,7 +101,6 @@ public class ProductServiceImpl implements ProductService {
             }
             products.setQuantity(remainingQuantity);
             productRepo.save(products);
-            System.out.println("products " + products);
             return new ResponseEntity<>(new ApiResponseDTO(HttpStatus.OK, "success", products), HttpStatus.OK);
 
         } catch (Exception e) {
