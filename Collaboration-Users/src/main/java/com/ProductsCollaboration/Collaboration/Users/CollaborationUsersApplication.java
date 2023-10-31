@@ -1,5 +1,6 @@
 package com.ProductsCollaboration.Collaboration.Users;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,11 @@ public class CollaborationUsersApplication {
 	@Bean
 	public RestTemplate restTemplate(){
 		return new RestTemplate();
+	}
+
+	@Bean
+	public ModelMapper modelMapper(){
+		return new ModelMapper();
 	}
 
 }

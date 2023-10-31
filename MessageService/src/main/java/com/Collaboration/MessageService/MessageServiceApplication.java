@@ -1,25 +1,19 @@
-package com.ProductsCollaboration.Collaboration.Products;
+package com.Collaboration.MessageService;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-public class CollaborationProductsApplication {
+@EnableJpaAuditing
+public class MessageServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CollaborationProductsApplication.class, args);
+		SpringApplication.run(MessageServiceApplication.class, args);
 	}
 
-
-	@Bean
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
-	}
-
-	
 	@Bean
 	public ModelMapper modelMapper(){
 

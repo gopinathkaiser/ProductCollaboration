@@ -1,6 +1,8 @@
 package com.ProductsCollaboration.Collaboration.Products.Controller;
 
+import com.ProductsCollaboration.Collaboration.Products.DTO.OrderProductDTO;
 import com.ProductsCollaboration.Collaboration.Products.DTO.ProductsDTO;
+import com.ProductsCollaboration.Collaboration.Products.DTO.UpdateProductDTO;
 import com.ProductsCollaboration.Collaboration.Products.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,17 @@ public class ProductController {
     @GetMapping("getProducts/{sid}")
     public ResponseEntity<?> getProducts(@PathVariable Long sid){
         return productService.getProducts(sid);
+    }
+
+    @PostMapping("orderProduct")
+    public ResponseEntity<?> orderProduct(@RequestBody OrderProductDTO orderProduct){
+        System.out.println(orderProduct + "controller");
+        return productService.orderProducts(orderProduct);
+    }
+
+    @PostMapping("updateProduct/{pid}")
+    public ResponseEntity<?> updateProduct(@PathVariable Long pid,@RequestBody UpdateProductDTO updateProduct){
+        return productService.updateProduct(pid,updateProduct);
     }
 
 

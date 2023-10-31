@@ -7,17 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
+@NoArgsConstructor
+public class SellerBalanceDTO {
 
-    private Long prodId;
+    private Long sellerId;
 
-    private String prodName;
-
-    private Long prodPrice;
-
-    private String prodDesc;
+    private Long remainingPrice;
 }
-
-

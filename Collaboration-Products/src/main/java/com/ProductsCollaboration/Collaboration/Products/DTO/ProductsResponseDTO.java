@@ -5,19 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductsDTO {
+public class ProductsResponseDTO {
 
     private Long UserId;
 
-    private String prodName;
-
-    private Long prodPrice;
-
-    private String prodDesc;
-
-    private Integer quantity;
+    private List<ProductDetailsDTO> products;
 }
